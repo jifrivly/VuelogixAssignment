@@ -22,9 +22,15 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 
-app.use("employee", require("./employee/employee"));
-app.use("admin", require("./admin/admin"));
+app.use("/employee", require("./employee/employee"));
+app.use("/admin", require("./admin/admin"));
 
+app.get("/", (req, res) => {
+    res.status(200).json({
+        success: true,
+        message: "Welcome.., This Home route working..."
+    });
+});
 
 app.get("*", (req, res) => {
     res.status(403).json({
