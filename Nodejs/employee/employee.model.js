@@ -5,8 +5,9 @@ const employeeSchema = new mongoose.Schema({
     position: String,
     work: {
         checked: Boolean,
+        firstDay: String,
         lastCheckTime: String,
-        workTime: String
+        workTime: [String]
     },
     leave: {
         inLeave: Boolean
