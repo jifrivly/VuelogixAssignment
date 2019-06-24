@@ -28,7 +28,7 @@ import { EmployeeComponent } from './components/employee/employee.component';
 import { EmployeeDashboardComponent } from './components/employee-dashboard/employee-dashboard.component';
 import { AdminDashboardComponent } from './components/admin-dashboard/admin-dashboard.component';
 
-import { EmployeeModel } from "./models/employee-model";
+
 
 @NgModule({
   declarations: [

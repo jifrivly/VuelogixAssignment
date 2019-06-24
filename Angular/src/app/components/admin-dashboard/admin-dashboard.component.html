@@ -1,19 +1,43 @@
 <h2>Dashboard</h2>
 <div *ngIf="this.employeeListError">
+  Error occurred <br> Error :
   {{this.employeeListError | json}}
 </div>
 <div *ngIf="this.employeeList; else noDataTemplate">
-  {{this.employeeList | json}}
+  <!-- {{this.employeeList | json}} -->
 
   <div *ngFor="let employee of this.employeeList;index as i">
     <h2>{{i+1}}</h2>
-    Name : {{employee.name}} <br>
-    Position : {{employee.position}} <br>
-    Email ID : {{employee.email}} <br>
-    <button (click)="viewWorkTime(employee._id)">Click to view Work time </button>
-    <div *ngIf="viewWorkTimeButton">
-      <h2>Viewing Work time</h2>
-      {{this.employeeList}}
+    Name : {{employee.data.name}} <br>
+    Position : {{employee.data.position}} <br>
+    Email ID : {{employee.data.email}} <br>
+    <button (click)="viewWorkTime(employee)">Click to view Work time </button>
+    <div *ngIf="employee.viewWorkTimeButton">
+      <h2>Viewing Work times</h2>
+      <table *ngIf="employee.workTimes.length > 0;else noDataTemplate">
+        <tr>
+          <th> Date </th>
+          <td *ngFor="let work of employee.workTimes;index as i">
+            {{ employee.data.work.firstDay + (i*24*60*60*1000) | date}}
+          </td>
+        </tr>
+        <tr>
+          <th> Work Time </th>
+          <td *ngFor="let work of employee.workTimes;index as i">{{work}}</td>
+        </tr>
+      </table>
+      <ng-template #noDataTemplate>
+        <table>
+          <tr>
+            <th> Date </th>
+            <td> 00 </td>
+          </tr>
+          <tr>
+            <th> Work Time </th>
+            <td> No data </td>
+          </tr>
+        </table>
+      </ng-template>
     </div>
   </div>
 

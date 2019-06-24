@@ -11,8 +11,8 @@ import { AdminService } from 'src/app/services/admin.service';
 })
 export class AdminDashboardComponent implements OnInit {
 
-  employeeList: EmployeeModel[];
-  employeeListError: any
+  employeeList: EmployeeModel[] = [];
+  employeeListError: any;
 
 
   constructor(
@@ -22,11 +22,13 @@ export class AdminDashboardComponent implements OnInit {
   ngOnInit() {
     this.adminService.getEmployeeList().subscribe(
       (result) => {
-        this.employeeList = result.data;
+        // this.employeeList = result.data;
         this.employeeListError = null;
-        result.forEach((employee) => {
-          var  = new EmployeeModel(employee, false, null, null);
+        result.data.forEach((employee, i: number) => {
+          console.log(employee);
+          this.employeeList[i] = new EmployeeModel(employee);
         });
+
       },
       (err) => {
         this.employeeListError = err;
@@ -35,58 +37,27 @@ export class AdminDashboardComponent implements OnInit {
   }
 
 
-  viewWorkTime(id) {
-    if (this.viewWorkTimeButton) {
-      this.viewWorkTimeButton = false;
+  viewWorkTime(object) {
+    if (object.viewWorkTimeButton) {
+      object.viewWorkTimeButton = false;
     } else {
-      this.viewWorkTimeButton = true;
-      this.adminService.getEmployeeById(id).subscribe(
-        (result) => {
-          this.employee = result;
+      object.data.work.firstDay = parseInt(object.data.work.firstDay);
+      object.viewWorkTimeButton = true;
+      object.calculateWorkTimes();
+      var noDays = true;
+      while (noDays) {
+        if (object.workTimes.length > 30) {
 
-          var workTimes = this.calculateWorkTimes(result.work.workTime)
-        },
-        (err) => {
-          this.employeeError = err;
+        } else {
+          noDays = false;
         }
-      );
+      }
+
     }
 
   }
 
 
-
-  // calculating work time
-  private calculateWorkTimes(workTime: []): [string] {
-    var workTimes: [string];
-
-    // console.log(workTimes);
-
-    workTime.forEach((t: any) => {
-      // var time = t;
-      // console.log("Time : " + t);
-      var time = Math.round(t / 1000);
-      // console.log("Total Seconds : " + time);
-
-
-      var seconds = time % 60;
-      // console.log("Seconds : " + seconds);
-
-      time = Math.round(time / 60);
-      var minutes = time % 60;
-      // console.log("Minutes : " + minutes);
-
-      time = Math.round(time / 60);
-      var houres = time % 60;
-      // console.log("Houres : " + houres);
-
-      var workString: string = houres + "h " + minutes + "m " + seconds + "s";
-      workTimes.push(workString);
-
-    });
-
-    return workTimes;
-  }
 
 
 
