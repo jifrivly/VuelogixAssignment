@@ -1,0 +1,17 @@
+<mat-toolbar color="accent">
+  <mat-toolbar-row>
+    <a [routerLink]="['']" routerLinkActive="router-link-active">
+      <button mat-button color="warn">Home</button>
+    </a>
+    <nav mat-button style="flex:1 1 auto">
+    </nav>
+
+    <a [routerLink]="['admin']" routerLinkActive="router-link-active">
+      <button mat-button> Admin </button>
+    </a>
+    <a [routerLink]="['employee']" routerLinkActive="router-link-active">
+      <button mat-button> Employee </button>
+    </a>
+
+  </mat-toolbar-row>
+</mat-toolbar>

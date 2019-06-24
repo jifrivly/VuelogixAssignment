@@ -47,15 +47,28 @@ admin.post("/signup", (req, res) => {
 // Login Route 
 admin.post(
     "/login",
-    adminPassport.authenticate("local", { session: false }),
+    adminPassport
+        .authenticate(
+            "local", {
+                session: false,
+                failureRedirect: "/admin/loginError"
+            }),
     (req, res) => {
         console.log("post admin login route working");
+        console.log(req.user);
         res.status(200)
             .json({
                 success: true,
                 message: "Authentication success"
             });
     });
+// Login Error Route
+admin.get("/loginError", (req, res) => {
+    res.json({
+        success: false,
+        message: "Not Authenticated"
+    });
+});
 
 // Home Route 
 admin.get("/", (req, res) => {
@@ -67,3 +80,4 @@ admin.get("/", (req, res) => {
 });
 
 module.exports = admin;
+

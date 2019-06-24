@@ -61,7 +61,11 @@ employee.post("/signup", (req, res) => {
 // login Route
 employee.post(
     "/login",
-    employeePassport.authenticate("local", { session: false }),
+    employeePassport.authenticate("local",
+        {
+            session: false,
+            failureRedirect: "/employee/loginError"
+        }),
     (req, res) => {
         console.log("post employee login route working");
         res.status(200)
@@ -70,6 +74,14 @@ employee.post(
                 message: "Authentication success"
             });
     });
+
+employee.get("/loginError", (req, res) => {
+    res.json({
+        success: false,
+        message: "Not authenticated"
+    });
+});
+
 
 // checkedIn checkedOut Route
 employee.get("/checkInOut/:id", (req, res) => {
