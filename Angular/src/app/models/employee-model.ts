@@ -15,9 +15,9 @@ export class EmployeeModel {
             position: string,
             email: string,
         },
-        viewWorkTimeButton: boolean = false,
-        employeeError: string = null,
-        workTimes: [] = null
+        // viewWorkTimeButton: boolean = false,
+        // employeeError: string = null,
+        // workTimes: {} = null
     ) {
         this.data = data;
     }
@@ -35,11 +35,10 @@ export class EmployeeModel {
         name: string,
         position: string,
         email: string,
-    }
+    };
     viewWorkTimeButton: boolean = false;
     employeeError: string = null;
-    workTimes: string[] = null;
-
+    workTimes: object = {};
 
 
     if(data) {
@@ -54,6 +53,11 @@ export class EmployeeModel {
         this.workTimes = [];
         // console.log(workTimes);
 
+        var workDay = parseInt(this.data.work.firstDay);
+        var month = new Date(workDay).getMonth() + 1;
+        // var i = new Date(workDay).getFullYear() + " " + month;
+        var i = 0;
+        var dataOfMonth: object[] = [];
         this.data.work.workTime.forEach((t: any) => {
             // var time = t;
             // console.log("Time : " + t);
@@ -72,10 +76,38 @@ export class EmployeeModel {
             var houres = time % 60;
             // console.log("Houres : " + houres);
 
-            var workString: string = houres + "h " + minutes + "m " + seconds + "s";
-            this.workTimes.push(workString);
+            var workTimeString: string = houres + "h " + minutes + "m " + seconds + "s";
+
+            if (new Date(workDay).getDate() == 1) {
+                month = new Date(workDay).getMonth() + 1;
+                // i = new Date(workDay).getFullYear() + " " + month;
+                dataOfMonth = [];
+                i++;
+                // console.log(i)
+            }
+            var dataOfDay = {
+                date: workDay,
+                time: workTimeString
+            }
+
+            dataOfMonth.push(dataOfDay);
+
+            this.workTimes[i] = dataOfMonth;
+
+            // console.log(typeof this.workTimes)
+            // console.log(typeof this.workTimes[i])
+            // console.log(typeof this.workTimes[i])
+            workDay = workDay + (24 * 60 * 60 * 1000);
 
         });
 
+
+        // console.log(dataOfMonth);
+        // console.log(this.workTimes);
     }
+
+
+
+
+    // Class End
 }

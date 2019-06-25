@@ -14,18 +14,25 @@
     <button (click)="viewWorkTime(employee)">Click to view Work time </button>
     <div *ngIf="employee.viewWorkTimeButton">
       <h2>Viewing Work times</h2>
-      <table *ngIf="employee.workTimes.length > 0;else noDataTemplate">
-        <tr>
-          <th> Date </th>
-          <td *ngFor="let work of employee.workTimes;index as i">
-            {{ employee.data.work.firstDay + (i*24*60*60*1000) | date}}
-          </td>
-        </tr>
-        <tr>
-          <th> Work Time </th>
-          <td *ngFor="let work of employee.workTimes;index as i">{{work}}</td>
-        </tr>
-      </table>
+      <div *ngIf="employee.workTimes;else noDataTemplate">
+        <table *ngFor="let month of employee.workTimes;index as i2">
+          <tr>
+            <th> Date </th>
+            <td *ngFor="let work of month;index as index">
+              {{ work.date | date}}
+            </td>
+          </tr>
+          <tr>
+            <th> Work Time </th>
+            <td *ngFor="let work of month;index as index">
+              {{work.time}}
+            </td>
+          </tr>
+
+        </table>
+
+      </div>
+
       <ng-template #noDataTemplate>
         <table>
           <tr>

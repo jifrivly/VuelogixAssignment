@@ -37,21 +37,15 @@ export class AdminDashboardComponent implements OnInit {
   }
 
 
+
   viewWorkTime(object) {
     if (object.viewWorkTimeButton) {
       object.viewWorkTimeButton = false;
     } else {
-      object.data.work.firstDay = parseInt(object.data.work.firstDay);
       object.viewWorkTimeButton = true;
       object.calculateWorkTimes();
-      var noDays = true;
-      while (noDays) {
-        if (object.workTimes.length > 30) {
+      // console.log(object.workTimes);
 
-        } else {
-          noDays = false;
-        }
-      }
 
     }
 
