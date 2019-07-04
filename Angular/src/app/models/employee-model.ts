@@ -15,11 +15,12 @@ export class EmployeeModel {
             position: string,
             email: string,
         },
-        // viewWorkTimeButton: boolean = false,
-        // employeeError: string = null,
-        // workTimes: {} = null
+        employeeError: string = null
     ) {
         this.data = data;
+        this.viewWorkTimeButton = false;
+        this.employeeError = employeeError;
+        this.workTimes = null;
     }
 
     // declarations 

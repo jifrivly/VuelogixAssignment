@@ -1,34 +1,46 @@
 <h1>Employee Dashboard</h1>
-<div *ngIf="this.employeeFetchError">this.employeeFetchError</div>
+<div *ngIf="this.employee.data != null; else noEmployeeTemplate">Ya working
+  <div *ngIf="this.employee.employeeError">
+    {{this.employee.employeeError}}
+  </div>
+  {{this.employee.employeeError | json}}
 
-<h2 *ngIf="this.checkedMessage">{{this.checkedMessage}}</h2>
-<button mat-raised-button [disabled]="this.employeeFetchError"
-  (click)="checkedInOut()">{{checkedInOutButtonText}}</button>
+  <h2 *ngIf="this.checkedMessage">{{this.checkedMessage}}</h2>
+  <button mat-raised-button [disabled]="this.employee.employeeError"
+    (click)="checkedInOut()">{{checkedInOutButtonText}}</button>
 
-<br><br>
-<table *ngIf="this.workTimes.length > 0;else noDataTemplate">
-  <tr>
-    <th> No. </th>
-    <th> Date </th>
-    <th> Work Time </th>
-  </tr>
-  <tr *ngFor="let work of this.workTimes;index as i">
-    <td>{{i+1}}</td>
-    <td>{{this.firstDay+(i*24*60*60*1000) | date}}</td>
-    <td>{{work}}</td>
-  </tr>
-</table>
-<ng-template #noDataTemplate>
-  <table>
-    <tr>
-      <th> No. </th>
-      <th> Date </th>
-      <th> Work Time </th>
-    </tr>
-    <tr>
-      <td>00</td>
-      <td>No data</td>
-      <td>No data</td>
-    </tr>
-  </table>
+  <br><br>
+  <div *ngIf="this.employee.workTimes.length > 0;else noDataTemplate">
+    <table *ngFor="let month of this.employee.workTimes; let i=index">
+      <tr>
+        <th> No. </th>
+        <th> Date </th>
+        <th> Work Time </th>
+      </tr>
+      <tr *ngFor="let work of month;let i2 = index">
+        <td>{{i2+1}}</td>
+        <td>{{work.date | date}}</td>
+        <td>{{work.time}}</td>
+      </tr>
+    </table>
+  </div>
+
+  <ng-template #noDataTemplate>
+    <table>
+      <tr>
+        <th> No. </th>
+        <th> Date </th>
+        <th> Work Time </th>
+      </tr>
+      <tr>
+        <td>00</td>
+        <td>No data</td>
+        <td>No data</td>
+      </tr>
+    </table>
+  </ng-template>
+
+</div>
+<ng-template #noEmployeeTemplate>
+  No employee Found Error occurred...
 </ng-template>
